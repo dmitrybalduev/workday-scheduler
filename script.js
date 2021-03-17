@@ -1,7 +1,8 @@
 $("#currentDay").text( moment().format("dddd, MMMM Do YYYY"));
 
 function loadTimeblocks(){
-    //create block for cheduler
+    for(let i = 0; i < 12; i++){
+        //create block for cheduler
     let timeBlock = $("<div></div>");
     timeBlock.addClass('d-flex bd-highlight');
     //create a left element displaying time
@@ -16,6 +17,8 @@ function loadTimeblocks(){
     //append these elements
     timeBlock.append(displayTime, displayEvent, displaySaveButton);
     $('.container').append(timeBlock);
+    }
+    
 }
 
 loadTimeblocks();
