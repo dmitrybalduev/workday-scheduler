@@ -3,11 +3,13 @@ let timeArray2 = [9, 10, 11, 12, 13, 14, 15, 16, 17];
 var now = new Date().getHours();
 console.log(now);
 let color = "";
+let events = JSON.parse(localStorage.getItem("events"));
 
 
 $("#currentDay").text( moment().format("dddd, MMMM Do YYYY"));
 
 function loadTimeblocks(){
+
     for(let i = 0; i < timeArray.length; i++){
         if(now > timeArray2[i]){
             color = "bg-secondary";
@@ -23,11 +25,17 @@ function loadTimeblocks(){
         let displayTime = $("<div></div>").text(timeArray[i]); 
         displayTime.addClass('p-2 bd-highlight').attr("data-index", i);
         //create a middle element for event name
-        let displayEvent = $("<div></div>").text("Some event");
+        let displayEvent;
+        if(events != null){
+            displayEvent = $("<textarea></textarea>").text(events[i]);
+        }else{
+            displayEvent = $("<textarea></textarea>");
+        }
+        
         displayEvent.addClass('p-2 w-100 bd-highlight').attr("data-index", i); 
         //create a right element for save button
-        let displaySaveButton = $("<div></div>").text("SAVE"); 
-        displaySaveButton.addClass('p-2 bd-highlight').attr("data-index", i);
+        let displaySaveButton = $("<button></button>").text("SAVE"); 
+        displaySaveButton.addClass('p-2 bd-highlight').attr("data-index", i).attr("onclick", "storeEvent("+i+")");
         //append these elements
         timeBlock.append(displayTime, displayEvent, displaySaveButton);
         $('.container').append(timeBlock);
@@ -35,4 +43,6 @@ function loadTimeblocks(){
 }
 
 loadTimeblocks();
-
+function storeEvent(index){
+    console.log("Storing element " + index );
+}
