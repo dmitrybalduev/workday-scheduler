@@ -4,6 +4,7 @@ var now = new Date().getHours();
 console.log(now);
 let color = "";
 let events = JSON.parse(localStorage.getItem("events"));
+let initialEvents = ["", "", "", "", "", "", "", "", ""];
 
 
 $("#currentDay").text( moment().format("dddd, MMMM Do YYYY"));
@@ -44,5 +45,11 @@ function loadTimeblocks(){
 
 loadTimeblocks();
 function storeEvent(index){
-    console.log("Storing element " + index );
+    if(events == null){
+        for(let i = 0; i < timeArray.length; i++){
+            events = new Array(9);
+        }
+    }
+    events[index] = $("textarea[data-index="+index+"]")[0].value;
+    localStorage.setItem("events", JSON.stringify(events));
 }
