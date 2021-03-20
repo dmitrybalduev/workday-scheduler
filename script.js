@@ -4,9 +4,8 @@ var now = new Date().getHours();
 console.log(now);
 let color = "";
 let events = JSON.parse(localStorage.getItem("events"));
-let initialEvents = ["", "", "", "", "", "", "", "", ""];
 
-
+//displaying current date
 $("#currentDay").text( moment().format("dddd, MMMM Do YYYY"));
 
 function loadTimeblocks(){
@@ -21,22 +20,22 @@ function loadTimeblocks(){
         }
         //create block for cheduler
         let timeBlock = $("<div></div>");
-        timeBlock.addClass("d-flex bd-highlight " + color);
+        timeBlock.addClass("d-flex bd-highlight " );
         //create a left element displaying time
         let displayTime = $("<div></div>").text(timeArray[i]); 
         displayTime.addClass('p-2 bd-highlight').attr("data-index", i);
         //create a middle element for event name
         let displayEvent;
+        //if events array is not null, display event in textarea
         if(events != null){
             displayEvent = $("<textarea></textarea>").text(events[i]);
         }else{
             displayEvent = $("<textarea></textarea>");
         }
-        
-        displayEvent.addClass('p-2 w-100 bd-highlight').attr("data-index", i); 
+        displayEvent.addClass('p-2 w-100 bd-highlight ' + color).attr("data-index", i); 
         //create a right element for save button
-        let displaySaveButton = $("<button></button>").text("SAVE"); 
-        displaySaveButton.addClass('p-2 bd-highlight').attr("data-index", i).attr("onclick", "storeEvent("+i+")");
+        let displaySaveButton = $("<button></button>"); 
+        displaySaveButton.addClass('p-2 bd-highlight far fa-save').attr("data-index", i).attr("onclick", "storeEvent("+i+")");
         //append these elements
         timeBlock.append(displayTime, displayEvent, displaySaveButton);
         $('.container').append(timeBlock);
@@ -45,11 +44,13 @@ function loadTimeblocks(){
 
 loadTimeblocks();
 function storeEvent(index){
+    //checking if events array coming from local storage is not null
     if(events == null){
-        for(let i = 0; i < timeArray.length; i++){
-            events = new Array(9);
-        }
+        //if it's null, we create array of size 9
+        events = new Array(9);
     }
+    //assigning value of event(from textarea element) with same index to events array
     events[index] = $("textarea[data-index="+index+"]")[0].value;
+    //storing whole array to local storage
     localStorage.setItem("events", JSON.stringify(events));
 }
